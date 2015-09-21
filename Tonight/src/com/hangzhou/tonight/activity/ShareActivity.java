@@ -14,7 +14,6 @@ public class ShareActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		// Get intent, action and MIME type
 	    Intent intent = getIntent();
 	    String action = intent.getAction();
 	    String type = intent.getType();
@@ -45,14 +44,12 @@ public class ShareActivity extends Activity{
 	void handleSendImage(Intent intent) {
 	    Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
 	    if (imageUri != null) {
-	        // Update UI to reflect image being shared
 	    }
 	}
 
 	void handleSendMultipleImages(Intent intent) {
 	    ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 	    if (imageUris != null) {
-	        // Update UI to reflect multiple images being shared
 	    }
 	}
 }
