@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hangzhou.tonight"
     android:versionCode="1"
@@ -9,7 +9,7 @@
         android:targetSdkVersion="21" />
     
       <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 此权限用来显示反馈崩溃信息对话框 -->
+    <!-- 此权限显示反馈崩溃信息对话框 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
