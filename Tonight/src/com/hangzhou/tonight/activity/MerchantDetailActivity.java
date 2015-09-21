@@ -127,7 +127,6 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 				
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 		mAbSlidingPlayView.startPlay();
-		// adapter = new MyAdapter();
 		mAbSlidingPlayView.setOnItemClickListener(new AbOnItemClickListener() {
 
 			@Override
@@ -194,7 +193,6 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 						param, "UTF-8");
 			}
 
-			//[{"act_id":"46","address":"杭州市下城区再行路298号","des":"290元享价值总价值460元的雪花纯生啤酒套餐","endtime":"1451491200","img":"[\"0_0%E9%97%A8%E5%A4%B4.jpg\",\"0_1%E6%A0%BC%E5%B1%80.jpg\",\"0_2%E7%89%B9%E5%86%99.jpg\",\"0_3%E9%85%92%E6%B0%B4.jpg\",\"0_4%E5%A5%97%E9%A4%90.jpg\",\"0_5%E4%BA%BA%E7%89%A9.jpg\"]","lat":"30.312652","lon":"120.177033","mark":"0.0","name":"豪斯酒吧","price":"0.00","sales_num":"0","starttime":"1439827200","title":"畅销套餐","value":"0.00"}
 			@Override
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
