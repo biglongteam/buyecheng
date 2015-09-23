@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res/com.hangzhou.tonight">
     
     <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_setting_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/message_setting"
@@ -19,6 +20,7 @@
         ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
     
     <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_setting_share_software"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/share_software"
@@ -31,6 +33,7 @@
         ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
     
     <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_setting_change_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/change_password"
@@ -42,7 +45,8 @@
         app:text="@string/about"
         ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
     	
-    <Button 
+    <Button
+        android:id="@+id/individual_setting_exit" 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"

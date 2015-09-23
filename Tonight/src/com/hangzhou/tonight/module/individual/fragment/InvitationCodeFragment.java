@@ -52,7 +52,7 @@ public class InvitationCodeFragment extends BFragment {
 						ToastHelper.show(getActivity(), "已成功领取.");
 						etGifts.setText(null);
 					}
-					@Override public void onFail(String msg) {ToastHelper.show(getActivity(), "领取失败,请验证礼包码");}
+					@Override public void onFail(String msg) {/*ToastHelper.show(getActivity(), "领取失败,请验证礼包码");*/}
 				});
 			}
 		}
