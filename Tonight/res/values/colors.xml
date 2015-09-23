@@ -143,4 +143,7 @@
 	<color name="bg_color">#2f2b2f</color>
 	<color name="divider_listview">#FF201326</color>
 	<color name="divider_commission">#FF19042B</color>
+	
+	<color name="item_contact_normal">#383438</color>
+	<color name="module_contacts_devide_line">#282629</color>
 </resources>

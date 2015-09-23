@@ -27,6 +27,10 @@ public class MyPreference {
 	private static final String USER_FRIENDS = "friends";
 	private static final String TOKEN_ID = "token";//token
 	private static final String TEL_NUMBER = "tel_number";//电话号码
+	
+	private static final String CITY_URL = "city_url";//
+	private static final String CITY_COVSION = "city_covsion";//
+	
 	private static final String ISFIRSTCLICKPHOTO="isFirstClikcPhoto";
 	
 	private static final String ISSET="isSet";//是否设置过支付密码
@@ -102,6 +106,29 @@ public class MyPreference {
 		editor.putString(LOGIN_NAME, loginName);
 		editor.commit();
 	}
+	public String getCityUrl(){
+		String cityurl = sharedPreference.getString(CITY_URL, "");
+		return cityurl;
+	}
+	
+	
+	public void setCityUrl(String cityurl){
+		Editor editor = sharedPreference.edit();
+		editor.putString(CITY_URL, cityurl);
+		editor.commit();
+	}
+	
+	public String getCityConvsion(){
+		String convsion = sharedPreference.getString(CITY_COVSION, "0");
+		return convsion;
+	}
+	
+	
+	public void setCityConvsion(String convsion){
+		Editor editor = sharedPreference.edit();
+		editor.putString(CITY_COVSION, convsion);
+		editor.commit();
+	}
 	
 	public String getHongBao(){
 		String loginName = sharedPreference.getString(HONG_BAOS, "");
@@ -160,7 +187,7 @@ public class MyPreference {
 	}
 	
 	public String getUserName(){
-		String userName = sharedPreference.getString(USER_NAME, "优体游客");
+		String userName = sharedPreference.getString(USER_NAME, "游客");
 		return userName;
 	}
 	
@@ -300,7 +327,7 @@ public class MyPreference {
 		return userFat;
 	}
 	
-	public void setFact(String userFat){
+	public void setUserFact(String userFat){
 		Editor edit = sharedPreference.edit();
 		edit.putString(USER_FAT, userFat);
 		edit.commit();

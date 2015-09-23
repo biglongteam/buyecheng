@@ -1,5 +1,6 @@
 package com.hangzhou.tonight.module.social.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -9,12 +10,17 @@ import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
+import com.hangzhou.tonight.module.base.TabActivity.TabModel;
 import com.hangzhou.tonight.module.base.fragment.BFragment;
+import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
 import com.hangzhou.tonight.module.base.helper.ToastHelper;
 import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
-import com.hoo.ad.module.contacts.fragment.ContactsFragment;
+import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
+import com.hangzhou.tonight.module.base.util.inter.Callback;
 
 /**
  * 添加好友
@@ -56,7 +62,23 @@ public class AddFriendFragment extends BFragment {
 
 	//账号查询和手机号数组查询-->跳转到查询界面
 	private void searchFriend(String account){
-		ToastHelper.show(getActivity(), account);//个人
+		//ToastHelper.show(getActivity(), account);//个人
+		JSONObject params = new JSONObject();
+		params.put("searchUser", account);
+		AsyncTaskUtil.postData(getActivity(), "searchUser", params, new Callback() {
+			@Override public void onSuccess(final JSONObject result) {
+				//跳转到好友list界面
+				TbarViewModel model = new TbarViewModel();
+				model.title = "搜索结果";
+				BaseSingeFragmentActivity.startActivity(getActivity(), SearchResultFragment.class, model,new OnIntentCreateListener() {
+					@Override public void onCreate(Intent intent) {
+						intent.putExtra("friends", JSON.toJSONString(result.getJSONArray("userList")));
+					}
+				});
+			}
+			
+			@Override public void onFail(String msg) {}
+		});
 	}
 	
 	@Override protected void doHandler() {

@@ -31,4 +31,11 @@ public abstract class BFragment extends Fragment {
 	}
 	
 	public void onBackPressed(){}
+	
+	public Bundle getBundle(){
+		Bundle b = getArguments();
+		if(b == null){ b = getActivity().getIntent().getExtras();}
+		if(b == null){ b = new Bundle();}
+		return b;
+	}
 }

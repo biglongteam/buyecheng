@@ -19,9 +19,14 @@ import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.im.ChatActivity1;
 import com.hangzhou.tonight.manager.XmppConnectionManager;
 import com.hangzhou.tonight.model.User;
+import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
 import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
+import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
+import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
+import com.hangzhou.tonight.module.individual.fragment.IndividualInfomationFragment;
+import com.hangzhou.tonight.module.social.fragment.PeopleNearbyFragment.DataModel;
 
 /**
  * 我的好友
@@ -63,12 +68,16 @@ public class MyFriendFragment extends FriendCityWideFragment {
 		
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long arg3) {
-				User user = new User();
-				user.setJID(listData.get(position).uid+"@"+XmppConnectionManager.getInstance().getConnection().getServiceName());
-				createChat(user);
+			DataModel dm;
+			@Override public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				dm = listData.get(position);
+				TbarViewModel model = new TbarViewModel();
+				model.title = dm.getNick() + "-详细信息";
+				BaseSingeFragmentActivity.startActivity(getActivity(), IndividualInfomationFragment.class, model, new OnIntentCreateListener() {
+					@Override public void onCreate(Intent intent) {
+						intent.putExtra("uid", dm.uid);
+					}
+				});
 			}
 		});
 		

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Base64;
 
 import com.hangzhou.tonight.module.base.dto.UserInfoDto;
 import com.hangzhou.tonight.module.base.helper.ToastHelper;
@@ -26,7 +27,7 @@ public class AsyncTaskUtil {
 	private static FlippingLoadingDialog dialog;
 	private static Long uid = null;
 	private static FlippingLoadingDialog getDialog(Context context){
-		dialog = new FlippingLoadingDialog(context, "");
+		dialog = new FlippingLoadingDialog(context, "加载中...");
 		return dialog;
 	}
 	
@@ -83,6 +84,26 @@ public class AsyncTaskUtil {
 			if(null != encoded){
 				param.put("d", encoded);
 			}
+			//TODO COPY 20150923
+			/*String data0 = RC4Utils.RC4(password,JsonUtils.list2json(array));
+			String encoded1 = "";
+			try {
+				encoded1 = new String(Base64Utils.encode(data0.getBytes(PreferenceConstants.ISO88591), 0, data0.length()));
+			} catch (UnsupportedEncodingException e) {
+				//e.printStackTrace();
+			}
+			String decode = "";
+			try {
+				if(!encoded1.equals("")){
+					decode = new String(Base64.decode(encoded1, Base64.DEFAULT),PreferenceConstants.ISO88591);
+				}		
+			} catch (UnsupportedEncodingException e) {
+				//e.printStackTrace();
+			}
+			RC4Utils.RC4(password, decode);
+			param.put("d", encoded1);*/
+			
+			
 			CallbackModel model = new CallbackModel();
 			try{
 				String result = HttpRequest.submitPostData(PreferenceConstants.TONIGHT_SERVER, param,PreferenceConstants.ENCODE);

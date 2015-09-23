@@ -57,9 +57,20 @@ public class BaseSingeFragmentActivity extends CustomFragmentActivity {
 	}
 
 	public static void startActivity(Context context,final Class<?> fragmentCls,TbarViewModel model){
+		/*ActivityHelper.startActivity(context, BaseSingeFragmentActivity.class, 
+				 model,new OnIntentCreateListener() {
+				@Override public void onCreate(Intent intent) {
+					intent.putExtra(BaseSingeFragmentActivity.KEY_FRAGMENT_CLASSNAME, fragmentCls.getName());
+				}
+			});*/
+		startActivity(context, fragmentCls, model, null);
+	}
+	
+	public static void startActivity(Context context,final Class<?> fragmentCls,TbarViewModel model,final OnIntentCreateListener listener){
 		ActivityHelper.startActivity(context, BaseSingeFragmentActivity.class, 
 				 model,new OnIntentCreateListener() {
 				@Override public void onCreate(Intent intent) {
+					if(null != listener){ listener.onCreate(intent);}
 					intent.putExtra(BaseSingeFragmentActivity.KEY_FRAGMENT_CLASSNAME, fragmentCls.getName());
 				}
 			});

@@ -1,39 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
     android:background="@color/bg_color"
     android:orientation="vertical" >
     
-    <LinearLayout 
+    <LinearLayout
+        android:id="@+id/information_imgs" 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="12dp"
+        android:orientation="vertical"
+         android:paddingLeft="16dp"
         >
-        <ImageView 
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/default_head"
-            android:layout_marginRight="16dp"
-            />
-        
-        <ImageView 
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/head_add"
-            />
+        <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_marginTop="16dp"
+	        android:layout_marginBottom="12dp"
+	        >
+	        <ImageView 
+	            android:layout_width="60dp"
+	            android:layout_height="60dp"
+	            android:src="@drawable/default_head"
+	            android:layout_marginRight="16dp"
+	            />
+	        
+	        <ImageView
+	            android:id="@+id/individual_head_add" 
+	            android:layout_width="60dp"
+	            android:layout_height="60dp"
+	            android:src="@drawable/head_add"
+	            />
+	    </LinearLayout>
+		<View 
+		    android:layout_width="match_parent"
+		    android:layout_height="0.5dip"
+		    android:background="@color/divider_commission"
+		    />
     </LinearLayout>
-	<View 
-	    android:layout_width="match_parent"
-	    android:layout_height="0.5dip"
-	    android:background="@color/divider_commission"
-	    />
-    <TableLayout
+    
+     <Button
+        android:id="@+id/information_addfriend" 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="添加好友"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/selector_module_aboutadd"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
+        />
+     
+     
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/information_imgs"
+        android:layout_above="@id/information_addfriend"
+        >
+        <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
         >
         
         <TableRow
@@ -62,7 +92,8 @@
                 android:textColor="#FFE64087"
                 android:textSize="18sp"
                 />
-            <TextView 
+            <TextView
+                android:tag="tip"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="必选"
@@ -71,7 +102,8 @@
                 android:layout_marginRight="30dp"
                 android:visibility="invisible"
                 />
-            <ImageView 
+            <ImageView
+                android:tag="img"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/chevron_right"
@@ -109,7 +141,8 @@
                 android:textColor="#FFE64087"
                 android:textSize="18sp"
                 />
-            <TextView 
+            <TextView
+                android:tag="tip"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="必选"
@@ -118,7 +151,8 @@
                 android:layout_marginRight="30dp"
                 android:visibility="invisible"
                 />
-            <ImageView 
+            <ImageView
+                android:tag="img"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/chevron_right"
@@ -155,7 +189,8 @@
                 android:textColor="#FFE64087"
                 android:textSize="18sp"
                 />
-            <TextView 
+            <TextView
+                android:tag="tip"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="必选"
@@ -164,6 +199,7 @@
                 android:layout_marginRight="30dp"
                 />
             <ImageView 
+                android:tag="img" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/chevron_right"
@@ -199,7 +235,8 @@
                 android:textColor="#FFE64087"
                 android:textSize="18sp"
                 />
-            <TextView 
+            <TextView
+                android:tag="tip"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="必选"
@@ -207,7 +244,8 @@
                 android:textSize="10sp"
                 android:layout_marginRight="30dp"
                 />
-            <ImageView 
+            <ImageView
+                android:tag="img"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/chevron_right"
@@ -242,7 +280,8 @@
                 android:textColor="#FFE64087"
                 android:textSize="18sp"
                 />
-            <TextView 
+            <TextView
+                android:tag="tip"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="必选"
@@ -251,7 +290,8 @@
                 android:layout_marginRight="30dp"
                 android:visibility="invisible"
                 />
-            <ImageView 
+            <ImageView
+                android:tag="img"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/chevron_right"
@@ -289,7 +329,8 @@
                 android:textColor="#FFE64087"
                 android:textSize="18sp"
                 />
-            <TextView 
+            <TextView
+                android:tag="tip"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="必选"
@@ -297,7 +338,8 @@
                 android:textSize="10sp"
                 android:layout_marginRight="30dp"
                 />
-            <ImageView 
+            <ImageView
+                android:tag="img"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/chevron_right"
@@ -333,7 +375,8 @@
                 android:textColor="#FFE64087"
                 android:textSize="18sp"
                 />
-            <TextView 
+            <TextView
+                android:tag="tip"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="必选"
@@ -342,7 +385,8 @@
                 android:layout_marginRight="30dp"
                 android:visibility="invisible"
                 />
-            <ImageView 
+            <ImageView
+                android:tag="img"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/chevron_right"
@@ -377,7 +421,8 @@
                 android:textColor="#FFE64087"
                 android:textSize="18sp"
                 />
-            <TextView 
+            <TextView
+                android:tag="tip"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="必选"
@@ -387,6 +432,7 @@
                 android:visibility="invisible"
                 />
             <ImageView 
+                android:tag="img" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/chevron_right"
@@ -422,7 +468,8 @@
                 android:textColor="#FFE64087"
                 android:textSize="18sp"
                 />
-            <TextView 
+            <TextView
+                android:tag="tip" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="必选"
@@ -431,7 +478,8 @@
                 android:layout_marginRight="30dp"
                 android:visibility="invisible"
                 />
-            <ImageView 
+            <ImageView
+                android:tag="img"  
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/chevron_right"
@@ -443,5 +491,8 @@
         <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
     
     </TableLayout>
+        
+    </ScrollView>
     
-</LinearLayout>
+   
+</RelativeLayout>

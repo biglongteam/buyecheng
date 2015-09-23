@@ -1,40 +1,38 @@
 package com.hangzhou.tonight.module.individual.fragment;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jivesoftware.smack.Roster;
-import org.jivesoftware.smack.XMPPException;
-
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.AlertDialog.Builder;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TableLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.im.ChatActivity1;
+import com.hangzhou.tonight.manager.XmppConnectionManager;
+import com.hangzhou.tonight.model.User;
 import com.hangzhou.tonight.module.base.fragment.BFragment;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
+import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.StringUtil;
 import com.hoo.ad.base.helper.DeviceHelper;
 import com.hoo.ad.base.helper.ToastHelper;
@@ -43,9 +41,12 @@ public class IndividualInfomationFragment extends BFragment {
 
 	View vDynamic,vNick,vSign,vBrith,vSex,vOcc;
 	TextView tvDynamic,tvNick,tvSign,tvConstellation,tvBrith,tvId,tvSex,tvOcc,tvSt;
+	ImageView ivHeadAdd;
+	Button bAddfriend;
 	
 	JSONObject orginJson;
 	Map<String,ComponentModel> map = new HashMap<String,ComponentModel>();
+	boolean isFriend = false;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -54,6 +55,10 @@ public class IndividualInfomationFragment extends BFragment {
 	
 	@Override
 	protected void doView() {
+		
+		bAddfriend = findView(R.id.information_addfriend);
+		ivHeadAdd = findView(R.id.individual_head_add);
+		
 		vDynamic = findView(R.id.information_dynamic_container);
 		tvDynamic= findView(R.id.information_dynamic);
 		vNick  = findView(R.id.information_nickname_container);
@@ -74,9 +79,35 @@ public class IndividualInfomationFragment extends BFragment {
 	@Override protected void doListeners() {
 		
 	}
+	OnClickListener bAddfriendClick = new OnClickListener() {
+		@Override public void onClick(View v) {
+			if(MyPreference.getInstance(getActivity()).getUserId().equals(uid)){ 
+				ToastHelper.show(getActivity(), "当前用户是你自己.");return;
+			}
+			if(isFriend){
+				User user = new User();
+				user.setJID(uid +"@"+XmppConnectionManager.getInstance().getConnection().getServiceName());
+				Intent intent = new Intent(getActivity(), ChatActivity1.class);
+				intent.putExtra("to", user.getJID());
+				startActivity(intent);
+			}else{
+				addFriend();
+			}
+		}
+	};
 
-	@Override
-	protected void doHandler() {
+	String uid;
+	@Override protected void doHandler() {
+		uid =getBundle().getString("uid");
+		
+		if(uid == null){
+			bAddfriend.setVisibility(View.GONE);
+		}else{
+			ivHeadAdd.setVisibility(View.GONE);
+			bAddfriend.setOnClickListener(bAddfriendClick);
+		}
+		
+		
 		map.put("nick",new ComponentModel("昵称","nick", vNick, tvNick, Type.TEXT, true));
 		map.put("mood_count", new ComponentModel(null,"mood_count", vDynamic, tvDynamic, Type.DYNA, false));
 		map.put("sign", new ComponentModel("个人签名","sign", vSign, tvSign, Type.TEXT, true));
@@ -87,7 +118,12 @@ public class IndividualInfomationFragment extends BFragment {
 		map.put("career", new ComponentModel("职业","career", vOcc, tvOcc, Type.TEXT, true));
 		map.put("created_at", new ComponentModel(null,"created_at", null, tvSt, Type.TEXT, false));
 		
-		AsyncTaskUtil.postData(getActivity(), "getSelfInfo", null, new Callback() {
+		JSONObject params = null;
+		if(uid != null){
+			params = new JSONObject();
+			params.put("tuid", uid);
+		}
+		AsyncTaskUtil.postData(getActivity(),uid == null? "getSelfInfo" : "getUserInfo", params, new Callback() {
 			
 			@Override public void onSuccess(JSONObject result) {
 				JSONObject json = result.getJSONObject("userInfo");
@@ -102,6 +138,17 @@ public class IndividualInfomationFragment extends BFragment {
 						cm.getContainer().setTag(cm);
 						cm.getContainer().setOnClickListener(containerClick);
 					}
+					if(uid != null){
+						View v = cm.getContainer();
+						if(v == null){continue;}
+						View tv = v.findViewWithTag("tip"),iv = v.findViewWithTag("img");
+						if(null != tv){tv.setVisibility(View.GONE);}
+						if(null != iv){iv.setVisibility(View.GONE);}
+					}
+				}
+				if(json.containsKey("isfriend") && json.getInteger("isfriend")==1){
+					isFriend = true;
+					bAddfriend.setText("发消息");
 				}
 			}
 			
@@ -199,6 +246,57 @@ public class IndividualInfomationFragment extends BFragment {
 		}
 	};
 	
+	AlertDialog adAddfriend;TextView tvAddfriend;EditText etAddfriend;
+	private void addFriend(){
+		if(adAddfriend == null){
+			View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_custom_edittext,null);
+			adAddfriend = new AlertDialog.Builder(getActivity()).create();
+			adAddfriend.show();
+			Window w = adAddfriend.getWindow();
+			w.setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+			w.setContentView(view);
+			w.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM); 
+			w.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			
+			tvAddfriend = (TextView) view.findViewById(R.id.title);
+			etAddfriend = (EditText) view.findViewById(R.id.edit);
+			Button ok = (Button)view.findViewById(R.id.btn_ok),cancel = (Button)view.findViewById(R.id.btn_cancel);
+			ok.setOnClickListener(new OnClickListener() {
+				@Override public void onClick(View v) {
+					String content = etAddfriend.getText().toString();
+					if(!StringUtil.empty(content)){
+						adAddfriend.dismiss();
+						JSONObject params = new JSONObject();
+						params.put("tuid", uid);
+						params.put("msg", content);
+						params.put("nick", MyPreference.getInstance(getActivity()).getUserName());
+						AsyncTaskUtil.postData(getActivity(), "applyFriend", params, new Callback() {
+							
+							@Override public void onSuccess(JSONObject result) {
+								ToastHelper.show(getActivity(), "申请成功,等待回复.");getActivity().onBackPressed();
+							}
+							@Override public void onFail(String msg) {}
+						});
+					}
+					
+				}
+			});
+			cancel.setOnClickListener(new OnClickListener() {
+				@Override public void onClick(View v) {
+					adAddfriend.dismiss();
+				}
+			});
+		}else{
+			adAddfriend.show();
+		}
+		tvAddfriend.setText("你将添加" + orginJson.getString("nick"));
+		etAddfriend.setHint("请输入验证消息");
+		String content = etAddfriend.getText().toString();
+		etAddfriend.setText(content);
+		if(!StringUtil.empty(content)){ etAddfriend.setSelection(content.length()); }
+	}
+	
+	
 	private void doUpdate(ComponentModel cm){
 		
 		JSONObject params = new JSONObject();
@@ -221,7 +319,7 @@ public class IndividualInfomationFragment extends BFragment {
 	}
 	
 	@Override public void onBackPressed() {
-		doUpdate(null);
+		if(uid == null){ doUpdate(null); }
 		super.onBackPressed();
 	}
 	

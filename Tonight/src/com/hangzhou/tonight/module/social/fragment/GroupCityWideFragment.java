@@ -3,10 +3,13 @@ package com.hangzhou.tonight.module.social.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +17,10 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
 import com.hangzhou.tonight.module.base.fragment.BEmptyListviewFragment;
+import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
+import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
 import com.hangzhou.tonight.module.social.fragment.TonightCircleCityWideFragment.CollectionAdapter;
@@ -37,7 +43,18 @@ public class GroupCityWideFragment extends BEmptyListviewFragment {
 	List<DataModel> listData = null;
 	
 	@Override protected void doListeners() {
-		
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+			DataModel dm;
+			@Override public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				dm = listData.get(position);
+				TbarViewModel model = new TbarViewModel(dm.title);
+				BaseSingeFragmentActivity.startActivity(getActivity(), GroupDetailFragment.class, model, new OnIntentCreateListener() {
+					@Override public void onCreate(Intent intent) {
+						intent.putExtra("gid", dm.gid);
+					}
+				});
+			}
+		});
 	}
 	
 	@Override protected void doHandler() {
@@ -122,32 +139,8 @@ public class GroupCityWideFragment extends BEmptyListviewFragment {
 	}
 
 	public static class DataModel {
-		String title, intro,headphoto;
-
-		public String getTitle() {
-			return title;
-		}
-
-		public String getIntro() {
-			return intro;
-		}
-
-		public String getHeadphoto() {
-			return headphoto;
-		}
-
-		public void setTitle(String title) {
-			this.title = title;
-		}
-
-		public void setIntro(String intro) {
-			this.intro = intro;
-		}
-
-		public void setHeadphoto(String headphoto) {
-			this.headphoto = headphoto;
-		}
-		
+		String gid,title, intro,headphoto;
+		public String getGid() { 			return gid; 		} 		public void setGid(String gid) { 			this.gid = gid; 		} 		public String getTitle() { 			return title; 		} 		public String getIntro() { 			return intro; 		} 		public String getHeadphoto() { 			return headphoto; 		} 		public void setTitle(String title) { 			this.title = title; 		} 		public void setIntro(String intro) { 			this.intro = intro; 		} 		public void setHeadphoto(String headphoto) { 			this.headphoto = headphoto; 		} 		
 	}
 
 }
