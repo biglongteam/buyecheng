@@ -37,7 +37,7 @@
             android:singleLine="true"
             android:text="健身教练私教课"
             android:textColor="#ffffff"
-            android:textSize="@dimen/x40" />
+            android:textSize="17.7sp" />
 
              </RelativeLayout>
              
@@ -54,7 +54,7 @@
             android:singleLine="true"
             android:text="健身教练私教课健身教练私教课"
             android:textColor="#ffffff"
-            android:textSize="@dimen/x30" />
+            android:textSize="12sp" />
         </RelativeLayout>
         
         
@@ -82,7 +82,7 @@
                 android:paddingRight="@dimen/x20"
                 android:drawableLeft="@drawable/toutiao_location1"
                 android:drawablePadding="@dimen/x10"
-                android:textSize="@dimen/x30"
+                android:textSize="10sp"
                 style="@style/text_shadow_style"
                 android:text="2.1km"
                 android:textColor="#ffffff" />
@@ -112,7 +112,7 @@
                 android:paddingTop="@dimen/x5"
                 android:paddingBottom="@dimen/x5"
                 android:textColor="#000000"
-                android:textSize="@dimen/x27" />
+                android:textSize="18sp" />
         </RelativeLayout>
     </RelativeLayout>
 

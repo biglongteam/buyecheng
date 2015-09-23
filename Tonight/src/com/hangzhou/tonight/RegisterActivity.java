@@ -9,8 +9,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
@@ -94,10 +97,12 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	
 			phoneNum = etPhone.getText().toString();
 			if(FileUtils.matchPhone(phoneNum)){
+				initCountDown();
 				sendMessage();
 			}else {
 				showCustomToast("请重新输入手机号码");
 			}
+			
 			
 			break;
 		case R.id.bt_jinru:
@@ -110,6 +115,47 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 			break;
 		}
 	}
+	
+	
+	
+	
+	private Handler handler=new Handler(){
+
+		private String countDownMsg;
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			if(msg.what==0x123){
+				btHuoquyzm.setTextColor(Color.parseColor("#999999"));
+				countDownMsg=msg.arg1+"秒";
+				btHuoquyzm.setText(countDownMsg);
+				
+				Message sendMsg=new Message();
+				sendMsg.arg1=msg.arg1 - 1;
+				sendMsg.what=0x123;
+				if(sendMsg.arg1 >= 0){
+					handler.sendMessageDelayed(sendMsg, 1000);
+				}else{
+					btHuoquyzm.setTextColor(Color.parseColor("#84db9d"));
+					btHuoquyzm.setText("重新发送");
+				}
+					
+			}else if(msg.what==0x456){
+				btHuoquyzm.setEnabled(true);
+			}
+		}
+		
+	};
+
+	private void initCountDown() {
+		// TODO Auto-generated method stub
+		Message msg=new Message();
+		msg.arg1=60;
+		msg.what=0x123;
+		handler.sendMessage(msg);
+	}
+
 
 	private void registerUser() {
 		new AsyncTask<Void, Void, String>() {
@@ -156,17 +202,16 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 					
 					MyPreference.getInstance(RegisterActivity.this).setUserId(uid);
 					MyPreference.getInstance(RegisterActivity.this).setTelNumber(phone);
-					MyPreference.getInstance(RegisterActivity.this).setPassword(mPassword);
+					MyPreference.getInstance(RegisterActivity.this).setPassword(etPass.getText().toString());
 					MyPreference.getInstance(RegisterActivity.this).setLoginName(phoneNum);;
 					MyPreference.getInstance(RegisterActivity.this).setUserSex(sex);
 					MyPreference.getInstance(RegisterActivity.this).setUserName(nick);
 					MyPreference.getInstance(RegisterActivity.this).setUserbirth(birth);
-					MyPreference.getInstance(RegisterActivity.this).setFact(favorite);
+					//MyPreference.getInstance(RegisterActivity.this).setFact(favorite);
 					MyPreference.getInstance(RegisterActivity.this).setUserPraised(praised);
 					MyPreference.getInstance(RegisterActivity.this).setUserGroups(groups);
 					MyPreference.getInstance(RegisterActivity.this).setUserFrinds(friends);
 					Intent intent = new Intent(RegisterActivity.this, MainActivity.class); 
-					
 					
 					/*uid；
 					nick(⽤用户昵称)；
@@ -200,9 +245,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		String pw = MD5Utils.md5(psw).substring(0, 27);
 		String dd = pw+"ton";
 		mPassword = MD5Utils.md5(dd);
-		
-		
-		
 		
 		parms.put("phone", phoneNum);
 		parms.put("code", code);

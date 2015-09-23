@@ -34,7 +34,7 @@
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="2.0dip"
                 android:text="首页"
-                android:textSize="10.0dip" />
+                android:textSize="12sp" />
         </FrameLayout>
 
         <FrameLayout
@@ -59,7 +59,7 @@
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="2.0dip"
                 android:text="发现"
-                android:textSize="10.0dip" />
+                android:textSize="12sp" />
         </FrameLayout>
 		<!-- 中间部分(预留给凸起部分) -->
         <FrameLayout
@@ -88,7 +88,7 @@
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="2.0dip"
                 android:text="消息"
-                android:textSize="10.0dip" />
+                android:textSize="12sp" />
         </FrameLayout>
 
         <FrameLayout
@@ -111,7 +111,7 @@
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="2.0dip"
                 android:text="个人"
-                android:textSize="10.0dip" />
+                android:textSize="12sp" />
         </FrameLayout>
     </LinearLayout>
 
@@ -136,7 +136,7 @@
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="2.0dip"
             android:text="活动"
-            android:textSize="10.0dip" />
+            android:textSize="12sp" />
     </FrameLayout>
 
 </FrameLayout>

@@ -45,6 +45,7 @@
                         android:background="@null"
                         android:hint="请输入手机号码"
                         android:inputType="phone"
+                        android:textSize="15sp"
                         android:textColor="@color/white"
                         android:singleLine="true" />
                     
@@ -72,6 +73,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="请输入密码"
+                        android:textSize="15sp"
                         android:textColor="@color/white"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
@@ -99,6 +101,7 @@
                         android:gravity="center"
                         android:background="@null"
                         android:hint="请确认密码"
+                        android:textSize="15sp"
                         android:textColor="@color/white"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
@@ -141,7 +144,7 @@
                         android:background="@drawable/bt_getyzm_bg"
                         android:layout_marginLeft="@dimen/x20"
                         android:text="获取验证码"
-                        android:textSize="@dimen/x30" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
                 
@@ -152,7 +155,7 @@
                         android:background="@drawable/bt_getyzm_bg"
                         android:layout_marginTop="@dimen/x130"
                         android:text="立即进入"
-                        android:textSize="@dimen/x30" />
+                        android:textSize="18sp" />
             </LinearLayout>
     </LinearLayout>
 

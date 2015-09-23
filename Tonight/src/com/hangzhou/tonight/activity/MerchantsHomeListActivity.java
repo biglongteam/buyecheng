@@ -1,4 +1,4 @@
-package com.hangzhou.tonight.maintabs;
+package com.hangzhou.tonight.activity;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,14 +36,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.ab.view.listener.AbOnItemClickListener;
 import com.ab.view.sliding.AbSlidingPlayView;
 import com.hangzhou.tonight.R;
-import com.hangzhou.tonight.activity.MerchantDetailActivity;
-import com.hangzhou.tonight.activity.PromotionActivity;
-import com.hangzhou.tonight.activity.PromotionDetailActivity;
 import com.hangzhou.tonight.adapter.ActivesListAdapter;
 import com.hangzhou.tonight.adapter.MerchantListAdapter;
 import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.entity.ActivesEntity;
 import com.hangzhou.tonight.entity.MerchantEntity;
+import com.hangzhou.tonight.maintabs.TabItemActivity;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
 import com.hangzhou.tonight.util.IntentJumpUtils;
@@ -82,14 +82,19 @@ OnClickListener, IXListViewListener{
 	// private PromotionListFragment mPeopleFragment;
 	private Handler mHander;
 
-	
+	private ImageView btRq,btJl,btJg,btHp,btQx;
 	private int currentPage = 1,// 当期页码
 			pageCount = 1,// 总页数
 			pageSize = 15;// 每页数据量
-	private TextView tvBack,tvTitle;
+	private TextView tvCity,et_key;
 	private MerchantListAdapter mAdapter;
 	public List<MerchantEntity> mActives = new ArrayList<MerchantEntity>();
 
+	private String cityId;
+	private String cityName;
+	int type = 1;
+	String key;
+	ImageView imSerach;
 	ImageLoader imageLoader;
 	DisplayImageOptions options;
 	private AbSlidingPlayView mAbSlidingPlayView;
@@ -103,12 +108,14 @@ OnClickListener, IXListViewListener{
 		initViews();
 		initEvents();
 		init();
-		getDataList(currentPage);
+		getDataList(currentPage,cityId,key,type);
 	}
 	@Override
 	protected void initViews() {
-		tvBack = (TextView) findViewById(R.id.tv_header_back);
-		tvTitle = (TextView) findViewById(R.id.tv_title);
+		tvCity = (TextView) findViewById(R.id.tv_city);
+		et_key = (EditText) findViewById(R.id.et_key);
+		et_key.requestFocus();
+		imSerach = (ImageView) findViewById(R.id.title_search);
 		View mPlayViews = mInflater.inflate(R.layout.merchant_header, null);
 		xListView = (XListView) findViewById(R.id.merchant_list);
 		xListView.addHeaderView(mPlayViews);
@@ -116,7 +123,10 @@ OnClickListener, IXListViewListener{
 		//mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
 		// mAbSlidingPlayView.setParentHScrollView(menuLayout);
 		
-
+		btRq = (ImageView) mPlayViews.findViewById(R.id.img_qb);
+		btJg = (ImageView) mPlayViews.findViewById(R.id.img_yzh);
+		btHp = (ImageView) mPlayViews.findViewById(R.id.img_myb);
+		btJl = (ImageView) mPlayViews.findViewById(R.id.img_ktv);
 		imageLoader = ImageLoader.getInstance();
 		options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.kc_picture)// 正在加载
@@ -140,7 +150,12 @@ OnClickListener, IXListViewListener{
 
 	@Override
 	protected void initEvents() {
-		tvBack.setOnClickListener(this);
+		tvCity.setOnClickListener(this);
+		btRq.setOnClickListener(this);
+		btJg.setOnClickListener(this);
+		btHp.setOnClickListener(this);
+		btJl.setOnClickListener(this);
+		imSerach.setOnClickListener(this);
 		xListView.setPullLoadEnable(true);
 		xListView.setPullRefreshEnable(true);
 		xListView.setXListViewListener(this);
@@ -149,7 +164,7 @@ OnClickListener, IXListViewListener{
 	@Override
 	protected void init() {
 		mHander = new Handler();
-		tvTitle.setText("不夜程");
+		//tvTitle.setText("不夜程");
 		
 		for(int i = 0;i<BaseApplication.banners.size();i++){
 			
@@ -264,7 +279,7 @@ OnClickListener, IXListViewListener{
 	 * 
 	 * @throws
 	 */
-	private void getDataList(final int currentPage) {
+	private void getDataList(final int currentPage,String cityId,String key,final int type) {
 		new AsyncTask<Void, Void, String>() {
 
 			@Override
@@ -423,8 +438,33 @@ OnClickListener, IXListViewListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_header_back:
-			finish();
+		case R.id.tv_city:
+			Bundle bundle = new Bundle();
+			bundle.putInt("code", 1002);
+			IntentJumpUtils.nextActivity(SelectCityActivity.class, MerchantsHomeListActivity.this,bundle, 1002);
+			break;
+		case R.id.title_search:
+			key = et_key.getText().toString();
+			if(key!=null){
+				getDataList(currentPage,cityId,key,type);
+			}
+			break;
+			
+		case R.id.img_qb:
+			type = 1;
+			getDataList(currentPage,cityId,key,type);
+			break;
+		case R.id.img_yzh:
+			type = 2;
+			getDataList(currentPage,cityId,key,type);
+			break;
+		case R.id.img_myb:
+			type = 3;
+			getDataList(currentPage,cityId,key,type);
+			break;
+		case R.id.img_ktv:
+			type = 4;
+			getDataList(currentPage,cityId,key,type);
 			break;
 		default:
 			break;
@@ -432,10 +472,26 @@ OnClickListener, IXListViewListener{
 
 	}
 
+	
+	@Override
+	protected void onActivityResult( int requestCode,int resultCode,
+            Intent imageReturnIntent) {
+		 if (resultCode != 1002)
+	            return;
+		
+		 if(requestCode==1002){
+			cityId =  imageReturnIntent.getExtras().getString("id");
+			cityName = imageReturnIntent.getExtras().getString("name");
+			tvCity.setText(cityName);
+			getDataList(currentPage,cityId,key,type);
+			
+		 }
+	}
+	
 	protected void loadMore() {
 		currentPage++;// 每次 点击加载更多，请求页码 +1
 		// flagLoadMore = true;
-		getDataList(currentPage);
+		getDataList(currentPage,cityId,key,type);
 	}
 
 	@Override
@@ -449,7 +505,7 @@ OnClickListener, IXListViewListener{
 						String dateString = formatter.format(currentTime);
 						// flagLoadMore = false;
 						currentPage = 1;
-						getDataList(currentPage);
+						getDataList(currentPage,cityId,key,type);
 						xListView.stopRefresh();
 						xListView.stopLoadMore();
 						xListView.setRefreshTime(dateString);

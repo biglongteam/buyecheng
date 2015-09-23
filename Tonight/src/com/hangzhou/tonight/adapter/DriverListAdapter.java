@@ -3,12 +3,17 @@ package com.hangzhou.tonight.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
@@ -55,6 +60,9 @@ public class DriverListAdapter extends BaseObjectListAdapter {
 
 			holder.mIvAvatar = (ImageView) convertView
 					.findViewById(R.id.img_header);
+			
+			holder.bt_yuyue = (Button) convertView
+					.findViewById(R.id.bt_yuyue);
 
 			holder.mTvtitle = (TextView) convertView
 					.findViewById(R.id.tv_driver_name);
@@ -68,11 +76,26 @@ public class DriverListAdapter extends BaseObjectListAdapter {
 		}
 		//畅销套餐
 		//290元享价值总价值460元的雪花纯生啤酒套餐
-		DriverEntity people = (DriverEntity) getItem(position);
+		final DriverEntity people = (DriverEntity) getItem(position);
 		holder.mTvtitle.setTag(people);
 		holder.mTvtitle.setText(people.getName()+"");
 		holder.mTvdescribe.setText(people.getDrive_age()+"");
 		holder.mTvdistance.setText("服务"+people.getDrive_num()+"次");
+		
+		holder.bt_yuyue.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+
+				if(people.getPhone()==null){
+					Toast.makeText(mContext, "电话号码缺失", 1000).show();
+					return;
+				}
+				Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel://"+people.getPhone()));    
+	            mContext.startActivity(intent);
+				
+			}
+		});
 		
     	//LatLng pt_end = new LatLng(w, j);
 		//double distance = DistanceUtil.getDistance(pt_start, pt_end);
@@ -92,5 +115,6 @@ public class DriverListAdapter extends BaseObjectListAdapter {
 		TextView mTvdescribe;
 		TextView mTvdistance;
 		TextView mTvcharge;
+		Button bt_yuyue;
 	}
 }

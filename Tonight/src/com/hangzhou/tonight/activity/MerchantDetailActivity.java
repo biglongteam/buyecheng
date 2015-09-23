@@ -181,7 +181,7 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 			@Override
 			protected void onPreExecute() {
 				super.onPreExecute();
-				showLoadingDialog("正在登录,请稍后...");
+				showLoadingDialog("正在加载,请稍后...");
 			}
 
 			@Override

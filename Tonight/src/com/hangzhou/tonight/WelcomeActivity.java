@@ -1,19 +1,34 @@
 package com.hangzhou.tonight;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -21,11 +36,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.base.BaseActivity;
 import com.hangzhou.tonight.base.BaseApplication;
+import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.entity.BannerEntity;
 import com.hangzhou.tonight.maintabs.MainActivity;
+import com.hangzhou.tonight.module.social.fragment.MyFriendFragment;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
 import com.hangzhou.tonight.util.JsonUtils;
+import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.PreferenceUtils;
 import com.hangzhou.tonight.util.RC4Utils;
@@ -50,16 +68,24 @@ public class WelcomeActivity extends BaseActivity {
     private String account;
     private String password ;
 
+    private Context mContext;
+    
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         init();
+        mContext = this;
         openTonight();
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
         final View adsView = findViewById(R.id.fullscreen_imageview);
+       
+		MyPreference.getInstance(mContext).getCityConvsion();
+		
+        
         mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
         mSystemUiHider.setup();
         mSystemUiHider
@@ -133,6 +159,7 @@ public class WelcomeActivity extends BaseActivity {
 	}*/
     
     
+   
     private void openTonight(){
     	putAsyncTask2(new AsyncTask<Void, Void, String>() {
 
@@ -155,6 +182,18 @@ public class WelcomeActivity extends BaseActivity {
 				try{
 					
 				com.alibaba.fastjson.JSONObject object = JSON.parseObject(result);
+				
+				com.alibaba.fastjson.JSONObject object1 = object.getJSONObject("config");
+				String version = object1.getString("version");
+				String cityUrl = object1.getString("url");
+				
+				/*if(Integer.parseInt(MyPreference.getInstance(mContext).getCityConvsion())<Integer.parseInt(version)){
+					
+				}else {
+					
+				}*/
+				MyPreference.getInstance(mContext).setCityUrl(cityUrl);
+				MyPreference.getInstance(mContext).setCityConvsion(version);
 				
 				com.alibaba.fastjson.JSONArray jsonArray = object.getJSONArray("banner");
 				BaseApplication.banners = JSON.parseArray(jsonArray.toString(), BannerEntity.class);
@@ -252,12 +291,16 @@ public class WelcomeActivity extends BaseActivity {
     
     
     private void loadActivity(){
+    	
     	Intent intent = new Intent(WelcomeActivity.this,
     			MainActivity.class);
+    	
     	if(TextUtils.isEmpty(password)||TextUtils.isEmpty(account)){
     		intent = new Intent(WelcomeActivity.this,
     				LoginActivity.class);	
     	}
+    	
+    	
     	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 				| Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		// intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -293,9 +336,7 @@ public class WelcomeActivity extends BaseActivity {
 
 	@Override
 	protected void init() {
-		account = PreferenceUtils.getPrefString(this,
-				PreferenceConstants.ACCOUNT, "");
-		password = PreferenceUtils.getPrefString(this,
-				PreferenceConstants.PASSWORD, "");		
+		account = MyPreference.getInstance(mContext).getLoginName();
+		password = MyPreference.getInstance(mContext).getPassword();	
 	}
 }
