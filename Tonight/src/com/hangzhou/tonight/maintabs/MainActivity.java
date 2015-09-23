@@ -93,10 +93,9 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 		//startService(new Intent(MainActivity.this, XXService.class));
 		setContentView(R.layout.activity_main);
 		initViews();
+		BaseApplication application=BaseApplication.getInstance();	
+		startService();
 		
-		
-		BaseApplication application=BaseApplication.getInstance();
-		application.startService();
 	    loginConfig = application.getLoginConfig();
 	   // XmppConnectionManager.getInstance().init();
 		LoginTask2 loginTask = new LoginTask2(MainActivity.this, loginConfig);
@@ -104,6 +103,18 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 			
 		
 	//	initTabs();
+	}
+	
+	
+	
+	private void startService(){
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				BaseApplication.getInstance().startService();				
+			}
+		}).start();
 	}
 	
 	
