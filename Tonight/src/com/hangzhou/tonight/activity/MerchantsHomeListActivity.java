@@ -439,7 +439,9 @@ OnClickListener, IXListViewListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_city:
-			IntentJumpUtils.nextActivity(SelectCityActivity.class, MerchantsHomeListActivity.this,null, 1002);
+			Bundle bundle = new Bundle();
+			bundle.putInt("code", 1002);
+			IntentJumpUtils.nextActivity(SelectCityActivity.class, MerchantsHomeListActivity.this,bundle, 1002);
 			break;
 		case R.id.title_search:
 			key = et_key.getText().toString();
@@ -480,11 +482,10 @@ OnClickListener, IXListViewListener{
 		 if(requestCode==1002){
 			cityId =  imageReturnIntent.getExtras().getString("id");
 			cityName = imageReturnIntent.getExtras().getString("name");
-			//getDataList(currentPage,cityId);
 			tvCity.setText(cityName);
+			getDataList(currentPage,cityId,key,type);
 			
 		 }
-		
 	}
 	
 	protected void loadMore() {

@@ -240,7 +240,7 @@ public class PromotionActivity extends TabItemActivity implements
 					try {
 						unzip(zipFile, zipDir, password);
 						
-						initCity();
+						//initCity();
 					} catch (ZipException e) {
 						e.printStackTrace();
 					}
@@ -249,7 +249,7 @@ public class PromotionActivity extends TabItemActivity implements
 	    	}.execute();
 	    }
 	    
-	private void initCity() {
+	/*private void initCity() {
 		File dbfile = new File(Environment.getExternalStorageDirectory() + "/citytonight/tonight.s3db");
 		SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
 		ArrayList<City> cityList= new ArrayList<City>();
@@ -263,7 +263,7 @@ public class PromotionActivity extends TabItemActivity implements
 		}
 		
 	}
-
+*/
 	@Override
 	protected void initViews() {
 		index_head = (RelativeLayout) findViewById(R.id.index_head);
@@ -551,8 +551,9 @@ public class PromotionActivity extends TabItemActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_header_back://切换城市
-			
-			IntentJumpUtils.nextActivity(SelectCityActivity.class, PromotionActivity.this,null, 1001);
+			Bundle bundle = new Bundle();
+			bundle.putInt("code", 1001);
+			IntentJumpUtils.nextActivity(SelectCityActivity.class, PromotionActivity.this,bundle, 1001);
 			
 			break;
 		case R.id.title_search://搜索

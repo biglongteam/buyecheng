@@ -35,12 +35,12 @@
                         android:layout_marginBottom="40dip"
                         android:gravity="center"
                         android:text="不 夜 程"
-                        android:textColor="#7835A3"
-                        android:shadowDy="3"
+                        android:textColor="#FF3023AE"
+                        android:shadowDy="2"
                         android:shadowDx="1"
                         android:shadowRadius="2"
-                       android:shadowColor="#B881DB"
-                        android:textSize="@dimen/x55" />
+                       android:shadowColor="#FFC86DD7"
+                        android:textSize="22sp" />
                     
 
                      <LinearLayout
@@ -59,6 +59,7 @@
                         android:drawableLeft="@drawable/user"
                         android:hint="请输入手机号码"
                         android:textColor="@color/white"
+                        android:textSize="14sp"
                         android:inputType="phone"
                         android:singleLine="true" />
 
@@ -86,6 +87,7 @@
                         android:drawableLeft="@drawable/password"
                         android:textColor="@color/white"
                         android:hint="请输入密码"
+                        android:textSize="14sp"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:singleLine="true" />
@@ -106,7 +108,7 @@
                         android:background="@drawable/bt_login_bg"
                         android:textColor="#666666"
                         android:text="登  录"
-                        android:textSize="@dimen/x40" />
+                        android:textSize="18sp" />
 
                     <com.hangzhou.tonight.view.HandyTextView
                         android:id="@+id/login_btn_register"
@@ -116,7 +118,7 @@
                         android:clickable="true"
                         android:text="还没有账号快速注册  >"
                         android:textColor="#ffffff"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <com.hangzhou.tonight.view.HandyTextView
                         android:id="@+id/login_htv_selectcountrycode"
@@ -126,7 +128,7 @@
                         android:clickable="true"
                         android:textColor="#ffffff"
                         android:text="第三方合作平台登录"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout

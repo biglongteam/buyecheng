@@ -66,6 +66,7 @@ public class SelectCityActivity extends BaseActivity implements OnClickListener{
 	TextView tv_result;
 	FrameLayout fl_content;
 	private String text;
+	private int code;
 	ArrayList<String> allList=new ArrayList<String>();
 
 	public final String mPageName ="SelectCityActivity";
@@ -84,6 +85,7 @@ public class SelectCityActivity extends BaseActivity implements OnClickListener{
 		setContentView(R.layout.layout_selectcity);
 		mContext = this;
 		myApplication = BaseApplication.getInstance();
+		code = getIntent().getExtras().getInt("code");
 		initCity();
 		initViews() ;
 		initEvents();
@@ -143,6 +145,8 @@ public class SelectCityActivity extends BaseActivity implements OnClickListener{
 		 */
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
+			
+
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -153,7 +157,7 @@ public class SelectCityActivity extends BaseActivity implements OnClickListener{
 				Intent intent = new Intent(SelectCityActivity.this,PromotionActivity.class);
 				intent.putExtra("name", bean.getName());
 				intent.putExtra("id", bean.getId());
-				setResult(1001, intent);
+				setResult(code, intent);
 				finish();
 
 			}

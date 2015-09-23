@@ -57,7 +57,7 @@
                     android:paddingLeft="@dimen/x10"
                     android:text="酒吧介绍 ："
                     android:textColor="#72324F"
-                    android:textSize="@dimen/x40" />
+                    android:textSize="18sp" />
 
                 </LinearLayout>
                 
@@ -80,7 +80,7 @@
                     android:paddingLeft="@dimen/x45"
                     android:scrollHorizontally="false"
                     android:text="北京市昌平区沙阳路13号gdffsd"
-                    android:textSize="@dimen/x35" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="@dimen/x490"
@@ -103,7 +103,7 @@
                     android:paddingLeft="@dimen/x45"
                     android:scrollHorizontally="false"
                     android:text="400-800-4567"
-                    android:textSize="@dimen/x35" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="@dimen/x490"
@@ -127,7 +127,7 @@
                     android:paddingLeft="@dimen/x45"
                     android:scrollHorizontally="false"
                     android:text="瑞达路科学大道交叉口向北100m"
-                    android:textSize="@dimen/x35" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <View 
@@ -169,7 +169,7 @@
                     android:paddingLeft="@dimen/x15"
                     android:text="店中活动 ："
                     android:textColor="#72324F"
-                    android:textSize="@dimen/x40" />
+                    android:textSize="18sp" />
                 </LinearLayout>
                  <View 
                     android:background="#231E23" 
@@ -225,7 +225,7 @@
                      android:paddingLeft="@dimen/x15"
                     android:text="商家服务 ："
                     android:textColor="#72324F"
-                    android:textSize="@dimen/x40" />
+                    android:textSize="18sp" />
                 
                 </LinearLayout>
 
@@ -242,7 +242,7 @@
                     android:paddingTop="@dimen/x15"
                     android:scrollHorizontally="false"
                     android:text="本店提供以下服务："
-                    android:textSize="@dimen/x35" />
+                    android:textSize="15sp" />
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
@@ -262,7 +262,7 @@
                         android:paddingLeft="@dimen/x45"
                         android:scrollHorizontally="false"
                         android:text="预约代驾"
-                        android:textSize="@dimen/x35" />
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -294,7 +294,7 @@
                         android:paddingLeft="@dimen/x45"
                         android:scrollHorizontally="false"
                         android:text="活动策划"
-                        android:textSize="@dimen/x35" />
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -336,7 +336,7 @@
                     android:paddingLeft="@dimen/x25"
                     android:text="评 论 ："
                     android:textColor="#72324F"
-                    android:textSize="@dimen/x40" />
+                    android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
 
