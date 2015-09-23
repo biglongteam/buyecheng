@@ -152,11 +152,13 @@ public class WelcomeActivity extends BaseActivity {
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
 				
-				com.alibaba.fastjson.JSONObject object = JSON
-						.parseObject(result);
+				try{
+					
+				com.alibaba.fastjson.JSONObject object = JSON.parseObject(result);
 				
 				com.alibaba.fastjson.JSONArray jsonArray = object.getJSONArray("banner");
 				BaseApplication.banners = JSON.parseArray(jsonArray.toString(), BannerEntity.class);
+				}catch(Exception e){}
 			}
 		});
     }

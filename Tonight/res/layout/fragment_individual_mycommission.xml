@@ -50,10 +50,11 @@
 	            android:textSize="18sp"
 	            android:textColor="@color/white"
 	            />
-            <TextView 
+            <TextView
+                android:id="@+id/mycommission_wallet" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1400元"
+                android:text="0元"
                 android:textSize="18sp"
                 android:textColor="#FFE64087"
                 android:layout_weight="1.0"

@@ -82,4 +82,14 @@ public abstract class CustomActionActivity extends Activity {
 	public Context getActivity(){
 		return this;
 	}
+	
+	/**
+	 * 查找组件[简洁封装]
+	 * @param resId
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends View> T findView(int resId){
+		return (T) findViewById(resId);
+	}
 }

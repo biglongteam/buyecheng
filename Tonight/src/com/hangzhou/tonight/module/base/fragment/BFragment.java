@@ -26,4 +26,9 @@ public abstract class BFragment extends Fragment {
 		return getView().findViewById(id);
 	}
 	
+	public <T extends View> T findView(int id){
+		return (T) getView().findViewById(id);
+	}
+	
+	public void onBackPressed(){}
 }

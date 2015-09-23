@@ -36,7 +36,8 @@
         android:layout_height="wrap_content"
         >
         
-        <TableRow 
+        <TableRow
+            android:id="@+id/information_dynamic_container" 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -52,7 +53,8 @@
 				android:textColor="@color/white"               
                 >
             </TextView>
-            <TextView 
+            <TextView
+                android:id="@+id/information_dynamic" 
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -79,7 +81,8 @@
         </TableRow>
         <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
     	
-         <TableRow 
+         <TableRow
+             android:id="@+id/information_sign_container" 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -95,7 +98,8 @@
 				android:textColor="@color/white"               
                 >
             </TextView>
-            <TextView 
+            <TextView
+                android:id="@+id/information_sign" 
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -125,7 +129,8 @@
         <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
     
         
-         <TableRow 
+         <TableRow
+            android:id="@+id/information_nickname_container" 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -141,7 +146,8 @@
 				android:textColor="@color/white"               
                 >
             </TextView>
-            <TextView 
+            <TextView
+                android:id="@+id/information_nickname"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -168,6 +174,7 @@
         <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
     
          <TableRow 
+            android:id="@+id/information_brithday_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -183,7 +190,8 @@
 				android:textColor="@color/white"               
                 >
             </TextView>
-            <TextView 
+            <TextView
+                android:id="@+id/information_brithday"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -225,7 +233,8 @@
 				android:textColor="@color/white"               
                 >
             </TextView>
-            <TextView 
+            <TextView
+                android:id="@+id/information_id" 
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -255,6 +264,7 @@
     
         
          <TableRow 
+            android:id="@+id/information_sex_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -270,7 +280,8 @@
 				android:textColor="@color/white"               
                 >
             </TextView>
-            <TextView 
+            <TextView
+                android:id="@+id/information_sex" 
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -296,7 +307,8 @@
         </TableRow>
         <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
     
-         <TableRow 
+         <TableRow
+            android:id="@+id/information_occupation_container" 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -312,7 +324,8 @@
 				android:textColor="@color/white"               
                 >
             </TextView>
-            <TextView 
+            <TextView
+                android:id="@+id/information_occupation" 
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -355,7 +368,8 @@
 				android:textColor="@color/white"               
                 >
             </TextView>
-            <TextView 
+            <TextView
+                android:id="@+id/information_constellation" 
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -399,7 +413,8 @@
 				android:textColor="@color/white"               
                 >
             </TextView>
-            <TextView 
+            <TextView
+                android:id="@+id/information_signtime" 
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"

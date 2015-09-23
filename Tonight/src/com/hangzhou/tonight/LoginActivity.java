@@ -218,6 +218,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	protected void init() {
 		mAccount=MyPreference.getInstance(LoginActivity.this).getLoginName();
 		mPassword=MyPreference.getInstance(LoginActivity.this).getPassword();;
+		mAccount="1000004";
+		mPassword="162b8d05099e10a37d28271217e94f26";
 		if (!TextUtils.isEmpty(mAccount))
 			mAccountEt.setText(mAccount);
 		if (!TextUtils.isEmpty(mPassword))
@@ -634,8 +636,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		mAccount = mAccountEt.getText().toString().trim();
 		//mPassword = mPasswordEt.getText().toString().trim();
 		
-		//mAccount="1000003";
-		//mPassword="9d2b201382a3a8cf1342c1be422594d5";
+		mAccount="1000004";
+		mPassword="162b8d05099e10a37d28271217e94f26";
 		String psw = "sq"+mPasswordEt.getText().toString().trim();
 		String pw = MD5Utils.md5(psw).substring(0, 27);
 		String dd = pw+"ton";

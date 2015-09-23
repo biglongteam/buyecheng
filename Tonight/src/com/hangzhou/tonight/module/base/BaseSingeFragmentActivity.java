@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.module.base.fragment.BFragment;
 import com.hangzhou.tonight.module.base.helper.ActivityHelper;
 import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
 import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
@@ -20,6 +21,7 @@ import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 public class BaseSingeFragmentActivity extends CustomFragmentActivity {
 	
 	public static final String KEY_FRAGMENT_CLASSNAME = "__cls_name_";
+	Fragment fragment;
 	
 	@Override protected void doView() {
 		setContentView(R.layout.common_tbar_framelayout);
@@ -40,7 +42,7 @@ public class BaseSingeFragmentActivity extends CustomFragmentActivity {
 		if(!canback){ setBackViewVisibility(View.GONE); }
 		try {
 			Class<?> cls = Class.forName(className);
-			Fragment fragment = (Fragment) cls.newInstance();
+			fragment = (Fragment) cls.newInstance();
 			fragment.setArguments(bundle);
 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 			transaction.replace(R.id.common_tbar_framelayout, fragment).commit();
@@ -62,4 +64,14 @@ public class BaseSingeFragmentActivity extends CustomFragmentActivity {
 				}
 			});
 	}
+	
+	@Override
+	public void onBackPressed() {
+		if(fragment instanceof BFragment){
+			BFragment bf = (BFragment)fragment;
+			bf.onBackPressed();
+		}
+		super.onBackPressed();
+	}
+	
 }

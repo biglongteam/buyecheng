@@ -1,5 +1,6 @@
 package com.hangzhou.tonight.module.base.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -121,6 +122,27 @@ public class DateUtil {
 	}
 	
 	
+	public static String getFormatDate(int year,int month,int day,String pattern){
+		Calendar c = Calendar.getInstance();
+		c.set(year, month, day);
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		
+		return sdf.format(c.getTime());
+	}
+	
+	public static void setDate(Calendar c,String date,String pattern){
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		Date d = null;
+		try {
+			d = sdf.parse(date);
+		} catch (ParseException e) {
+			d = null;
+		}
+		if(null != d && c != null){
+			c.setTime(d);
+		}
+	}
+	
 	/**
 	  * @author jerry.chen
 	  * @param brithday
@@ -162,4 +184,48 @@ public class DateUtil {
 		}
 		return age;
 	 }
+	 
+	 static String[][] cons = new String[][]{
+		 {"水瓶座","0120","0218"}
+		,{"双鱼座","0219","0320"}
+		,{"白羊座","0321","0419"}
+		,{"金牛座","0420","0520"}
+		,{"双子座","0521","0621"}
+		,{"巨蟹座","0622","0722"}
+		,{"狮子座","0723","0822"}
+		,{"处女座","0823","0922"}
+		,{"天秤座","0923","1023"}
+		,{"天蝎座","1024","1122"}
+		,{"射手座","1123","1221"}
+		,{"摩羯座","1221","0119"}
+ };
+	 
+	 
+	 
+ /**
+  * 获取星座
+  * @param date
+  * @param pattern
+ * @return 
+  */
+ public static String getConstellation(String date,String pattern){
+	Date d = null;
+	try {
+		d = new SimpleDateFormat(pattern).parse(date);
+		String s = sdf_MM_dd.format(d);
+		for (int i = 0, len = cons.length; i < len; i++) {
+			String[] strs = cons[i];
+			if (s.compareTo(strs[1]) >= 0 && s.compareTo(strs[2]) <= 0) {
+				return strs[0];
+			}
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return null;
+ }
+ 
+ public static final String pattern_df = "yyyy-MM-dd";
+ public static final SimpleDateFormat sdf_yyyy_MM_dd_h = new SimpleDateFormat(pattern_df);
+ public static final SimpleDateFormat sdf_MM_dd = new SimpleDateFormat("MMdd");
 }

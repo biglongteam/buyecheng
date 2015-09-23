@@ -36,6 +36,9 @@
     <string name="individual">个人</string>
     <string name="receive">领取</string>
     
+    <string name="sure">确定</string>
+    <string name="cancel">取消</string>
+    
     <string name="about">关于</string>
     <string name="feedback">意见反馈</string>
     <string name="share_software">分享软件</string>
@@ -54,6 +57,7 @@
 	<string name="friends_gifts">好友礼包</string>
 	<string name="mycommission_pay">消费%1$s元</string>
 	<string name="money_ch">￥</string>
+	<string name="input_please">请输入</string>
 	<!-- 消息模块 -->
 	<string name="message">消息</string>
 	<string name="good">赞</string>
