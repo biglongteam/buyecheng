@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
+import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
 import com.baidu.location.BDLocation;
@@ -35,6 +37,7 @@ import com.hangzhou.tonight.service.IMContactService;
 import com.hangzhou.tonight.service.IMSystemMsgService;
 import com.hangzhou.tonight.service.ReConnectService;
 import com.hangzhou.tonight.util.MyPreference;
+import com.hoo.ad.base.helper.OsHelper;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -85,7 +88,17 @@ public class BaseApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		String processName = OsHelper.getProcessName(this, android.os.Process.myPid());
+        if (processName != null) {
+            boolean defaultProcess = processName.equals(OsHelper.getPackage(getBaseContext()));
+            if (defaultProcess) { onCreateDefaultApp(); }
+        }
 		
+	}
+	
+	
+	//用于执行当前系统初始化工作
+	public void onCreateDefaultApp(){
 		instance = this;
 		if (mContext == null) {
 			mContext = this;
