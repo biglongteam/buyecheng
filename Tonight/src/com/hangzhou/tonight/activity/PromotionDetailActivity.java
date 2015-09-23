@@ -43,7 +43,6 @@ import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.entity.ActivesEntity;
 import com.hangzhou.tonight.entity.ActivesInfo;
-import com.hangzhou.tonight.maintabs.MerchantsHomeListActivity;
 import com.hangzhou.tonight.maintabs.TabItemActivity;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
@@ -63,11 +62,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 
 /**
-* @ClassName: 活动 主页 
+* @ClassName: 活动 详情主页 
 * @Description: TODO(这里用一句话描述这个类的作用) 
 * @author yanchao 
 * @date 2015-8-30 下午5:17:58 
-*
  */
 public class PromotionDetailActivity extends TabItemActivity implements OnClickListener
 {
@@ -93,6 +91,7 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 	private AbSlidingPlayView mAbSlidingPlayView;
 	private String tel;
 	private boolean isFav = false;
+	private String fav;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -171,6 +170,7 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 	@Override
 	protected void init() {
 		mHander = new Handler();
+		fav = MyPreference.getInstance(mContext).getUserFact();
 		/*mPeopleFragment = new PromotionListFragment(mApplication, this, this);
 		//mGroupFragment = new NearByGroupFragment(mApplication, this, this);
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -298,7 +298,6 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 
 			
 		}.execute();
-		
 	}
 
 	private Map<String, String> setParams(int currentPage,int flag){
@@ -310,13 +309,12 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 		if(flag==0){
 			arry.add(0, "getActInfo");
 		}else {
-			
-			if(isFav){
-				parms.put("state",0);//state(1为收藏，0为取消收藏)
+			if(fav.equals("未收藏")){
+				parms.put("state", 1);//state(1为收藏，0为取消收藏)act_id(活动ID)；state(1为收藏，0为取消收藏)
+				
 			}else {
-				parms.put("state", 1);//state(1为收藏，0为取消收藏)
+				parms.put("state",0);//state(1为收藏，0为取消收藏)
 			}
-			
 			arry.add(0, "setFavoriteAct");
 		}
 		
@@ -495,12 +493,12 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 				super.onPostExecute(result);
 				dismissLoadingDialog();
 				com.alibaba.fastjson.JSONObject object = JSON.parseObject(result);
-				String  fav = MyPreference.getInstance(mContext).getUserFact();
+				
 				if(fav.equals("未收藏")){
-					showCustomToast("收藏成功");
-					MyPreference.getInstance(mContext).setFact("已收藏");
+					showCustomToast(act_id);
+					MyPreference.getInstance(mContext).setUserFact("已收藏");
 				}else {
-					MyPreference.getInstance(mContext).setFact("未收藏");
+					MyPreference.getInstance(mContext).setUserFact("未收藏");
 					showCustomToast("取消收藏");
 				}
 				//{"actInfo":{"act_id":"35","address":"杭州市江干区天城路88号","content":"3-4人畅爽套餐    1份     980元\n啤酒无限畅饮\n18:00到凌晨2:00，欢唱8小时\n门店价格：2480","des":"啤酒无限畅饮","endtime":"1470844800","img":"[\"0_0QQ%E6%88%AA%E5%9B%BE20150813101248.png\",\"0_1QQ%E6%88%AA%E5%9B%BE20150813101056.png\",\"0_2QQ%E6%88%AA%E5%9B%BE20150813101145.png\",\"0_3QQ%E6%88%AA%E5%9B%BE20150813101200.png\",\"0_4QQ%E6%88%AA%E5%9B%BE20150813101209.png\",\"0_7QQ%E6%88%AA%E5%9B%BE20150813101238.png\"]","lat":"30.293052","lon":"120.20591","name":"皇冠娱乐会所","phone":"15257128999","price":"0.00","review_num":"0","sales_num":"0","starttime":"1439395200","tip":"每张糯米券限20人使用，超出收费标准：超出收费标准：按照商家为标准，如有疑问请咨询商家\n每次消费不限使用糯米券张数\n包厢安排为：包厢安排为：小1包厢：3-4人，小2包厢：5-8人，中包厢：15-20人，大包厢；15-20人","title":"价值2480元15-20人欢唱套餐","value":"0.00"},"reviews":[],"s":1}

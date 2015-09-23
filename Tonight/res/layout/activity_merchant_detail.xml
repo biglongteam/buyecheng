@@ -111,7 +111,7 @@
                     android:paddingBottom="@dimen/x15"
                     android:paddingLeft="@dimen/x15"
                     android:paddingTop="@dimen/x15"
-                    android:text="活动地址"
+                    android:text="商家地址"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/x38" />
 

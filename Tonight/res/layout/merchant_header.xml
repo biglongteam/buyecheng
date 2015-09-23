@@ -127,7 +127,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:id="@+id/img_gd"
+                        android:id="@+id/img_ktv"
                         android:layout_width="@dimen/x100"
                         android:layout_height="@dimen/x100"
                         android:scaleType="fitXY"

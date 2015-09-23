@@ -1,5 +1,8 @@
 package com.hangzhou.tonight.base;
 
+import com.hangzhou.tonight.util.CommonTools;
+
+
 /**
  * 
 
@@ -18,5 +21,13 @@ public class Config {
 	public static String   ACT_IMG = "http://tonimg.51tonight.com/act/";
 	
 	public static String   SEL_IMG = "http://tonimg.51tonight.com/seller/";
+	
+    /**
+     * 机身的路径
+     */
+    public static final String DATA_PATH = CommonTools.getSdCardPathOld();
+    
+	
+	public static final String   CITY_PATH = DATA_PATH+"/tonight.zip/";
 
 }

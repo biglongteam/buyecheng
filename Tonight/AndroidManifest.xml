@@ -70,7 +70,7 @@
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name="com.hangzhou.tonight.maintabs.MerchantsHomeListActivity"
+            android:name="com.hangzhou.tonight.activity.MerchantsHomeListActivity"
             android:label="@string/title_activity_register" >
         </activity>
         

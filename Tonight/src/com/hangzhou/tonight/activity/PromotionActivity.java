@@ -1,6 +1,16 @@
 package com.hangzhou.tonight.activity;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,8 +29,11 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -44,7 +60,9 @@ import android.widget.PopupWindow.OnDismissListener;
 import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.adapter.ActivesListAdapter;
+import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.entity.ActivesEntity;
+import com.hangzhou.tonight.entity.City;
 import com.hangzhou.tonight.entity.NearByPeople;
 import com.hangzhou.tonight.maintabs.TabItemActivity;
 import com.hangzhou.tonight.util.Base64Utils;
@@ -52,6 +70,7 @@ import com.hangzhou.tonight.util.HttpRequest;
 import com.hangzhou.tonight.util.IntentJumpUtils;
 import com.hangzhou.tonight.util.JsonResolveUtils;
 import com.hangzhou.tonight.util.JsonUtils;
+import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.RC4Utils;
 import com.hangzhou.tonight.util.ScreenUtils;
@@ -95,16 +114,154 @@ public class PromotionActivity extends TabItemActivity implements
 	private String cityId;
 	private String cityName;
 	private int sort;
+	
+	
+	private URL mUrl;
+	private File mFile;
+	private FileOutputStream mOutputStream;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_promotion);
 		mContext = this;
+		 String url = MyPreference.getInstance(mContext).getCityUrl();
+			try {
+				mUrl = new URL(url);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		downCity();	
 		initViews();
 		initEvents();
 		init();
 		getDataList(currentPage,cityId);
+		
+	}
+
+	 private long download(){
+	    	
+	        URLConnection connection = null;
+	        int bytesCopied = 0;
+	        try {
+	            connection = mUrl.openConnection();
+	            int length = connection.getContentLength();
+	            mFile = new File(Config.CITY_PATH);
+	            if(mFile.exists()&&length == mFile.length()){
+	                return 0l;
+	            }
+	            mOutputStream = new FileOutputStream(mFile);
+	            bytesCopied =copy(connection.getInputStream(),mOutputStream);
+	            if(bytesCopied!=length&&length!=-1){
+	            }
+	            mOutputStream.close();
+	        } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+	        return bytesCopied;
+	    }
+	    private int copy(InputStream input, OutputStream output){
+	        byte[] buffer = new byte[1024*8];
+	        BufferedInputStream in = new BufferedInputStream(input, 1024*8);
+	        BufferedOutputStream out  = new BufferedOutputStream(output, 1024*8);
+	        int count =0,n=0;
+	        try {
+	            while((n=in.read(buffer, 0, 1024*8))!=-1){
+	                out.write(buffer, 0, n);
+	                count+=n;
+	            }
+	            out.flush();
+	        } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }finally{
+	            try {
+	                out.close();
+	            } catch (IOException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+	            }
+	            try {
+	                in.close();
+	            } catch (IOException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+	            }
+	        }
+	        return count;
+	    }
+
+	    
+	    
+	    public void unzip(File zipFile, String dest, String passwd)
+				throws ZipException {
+			ZipFile zFile = new ZipFile(zipFile); // 首先创建ZipFile指向磁盘上的.zip文件
+			zFile.setFileNameCharset("GBK"); // 设置文件名编码，在GBK系统中需要设置
+			if (!zFile.isValidZipFile()) { // 验证.zip文件是否合法，包括文件是否存在、是否为zip文件、是否被损坏等
+				throw new ZipException("压缩文件不合法,可能被损坏.");
+			}
+			File destDir = new File(dest); // 解压目录
+			if (destDir.isDirectory() && !destDir.exists()) {
+				destDir.mkdir();
+			}
+			if (zFile.isEncrypted()) {
+				zFile.setPassword(passwd.toCharArray()); // 设置密码
+			}
+			zFile.extractAll(dest); // 将文件抽出到解压目录(解压)
+		}
+
+	    
+	    /**
+	     * 
+	    * @Title: downCity 
+	    * @Description: TODO(这里用一句话描述这个方法的作用) 
+	    * @param     设定文件 
+	    * @return void    返回类型 
+	    * @throws
+	     */
+	    private  void downCity(){
+	    	
+	    	new AsyncTask<Void, Void, Long>() {
+
+				@Override
+				protected Long doInBackground(Void... params) {
+					// TODO Auto-generated method stub
+					 return download();
+				}
+				
+				protected void onPostExecute(Long result) {
+					super.onPostExecute(result);
+					String zipDir = Environment.getExternalStorageDirectory() + "/citytonight/";
+					String EncryptZipFile = Environment.getExternalStorageDirectory() + "/tonight.zip";
+					String password = "pass";
+					File zipFile = new File(EncryptZipFile);
+					try {
+						unzip(zipFile, zipDir, password);
+						
+						initCity();
+					} catch (ZipException e) {
+						e.printStackTrace();
+					}
+				};
+				
+	    	}.execute();
+	    }
+	    
+	private void initCity() {
+		File dbfile = new File(Environment.getExternalStorageDirectory() + "/citytonight/tonight.s3db");
+		SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+		ArrayList<City> cityList= new ArrayList<City>();
+		Cursor cursor = null;
+		cursor = db.query("cfg_city", new String[]{"id","name"}, null, null, null, null, null);
+		while(cursor.moveToNext()){
+			City city = new City();
+			city.setId(cursor.getString(0));
+			city.setName(cursor.getString(1));
+			cityList.add(city);
+		}
+		
 	}
 
 	@Override
@@ -435,8 +592,8 @@ public class PromotionActivity extends TabItemActivity implements
 	@Override
 	protected void onActivityResult( int requestCode,int resultCode,
             Intent imageReturnIntent) {
-		/* if (resultCode != Activity.RESULT_OK)
-	            return;*/
+		 if (resultCode != 1001)
+	            return;
 		
 		 if(requestCode==1001){
 			cityId =  imageReturnIntent.getExtras().getString("id");

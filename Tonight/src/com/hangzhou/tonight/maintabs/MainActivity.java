@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.activity.MerchantsHomeListActivity;
 import com.hangzhou.tonight.activity.PromotionActivity;
 import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.manager.XmppConnectionManager;
@@ -93,13 +94,13 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 		//startService(new Intent(MainActivity.this, XXService.class));
 		setContentView(R.layout.activity_main);
 		initViews();
-		BaseApplication application=BaseApplication.getInstance();	
+		/*BaseApplication application=BaseApplication.getInstance();	
 		startService();
 		
 	    loginConfig = application.getLoginConfig();
 	   // XmppConnectionManager.getInstance().init();
 		LoginTask2 loginTask = new LoginTask2(MainActivity.this, loginConfig);
-		loginTask.execute();
+		loginTask.execute();*/
 			
 		
 	//	initTabs();

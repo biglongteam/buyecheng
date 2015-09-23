@@ -1,5 +1,6 @@
 package com.hangzhou.tonight.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -12,7 +13,10 @@ import com.hangzhou.tonight.entity.City;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -54,6 +58,7 @@ public class SelectCityActivity extends BaseActivity implements OnClickListener{
 
 	};
 
+	ArrayList<City> cityLists = new ArrayList<City>();
 	//ArrayList<String> hot_List = new ArrayList<String>();
 	TextView tv_currentcity;
 	private TextView tvBack,tvTitle;
@@ -79,12 +84,26 @@ public class SelectCityActivity extends BaseActivity implements OnClickListener{
 		setContentView(R.layout.layout_selectcity);
 		mContext = this;
 		myApplication = BaseApplication.getInstance();
+		initCity();
 		initViews() ;
 		initEvents();
 		init();
 
 	}
-	
+	private void initCity() {
+		File dbfile = new File(Environment.getExternalStorageDirectory() + "/citytonight/tonight.s3db");
+		SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+		
+		Cursor cursor = null;
+		cursor = db.query("cfg_city", new String[]{"id","name"}, null, null, null, null, null);
+		while(cursor.moveToNext()){
+			City city = new City();
+			city.setId(cursor.getString(0));
+			city.setName(cursor.getString(1));
+			cityLists.add(city);
+		}
+		
+	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode==KeyEvent.KEYCODE_BACK&&tv_result.isShown()  ){
@@ -106,9 +125,8 @@ public class SelectCityActivity extends BaseActivity implements OnClickListener{
 	@Override
 	protected void init() {
 		tv_currentcity.setText(myApplication.myPreference.getCity());
-
 		 ListView mListView = (ListView) findViewById(R.id.lv);
-		 ArrayList<City> names = new ArrayList<City>();
+		 /*ArrayList<City> names = new ArrayList<City>();
 
 		 names.add(new City("北京市"));
 		 names.add(new City("上海市"));
@@ -118,8 +136,8 @@ public class SelectCityActivity extends BaseActivity implements OnClickListener{
 		 names.add(new City("中山市"));
 		 names.add(new City("廣州市"));
 		 names.add(new City("沈阳市"));
-		 
-		mListView.setAdapter(new CityAdapter(mApplication, mContext, names));
+		 */
+		mListView.setAdapter(new CityAdapter(mApplication, mContext, cityLists));
 		/**
 		 * 快速查询ListView的条目点击事件
 		 */

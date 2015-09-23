@@ -1,9 +1,19 @@
 package com.hangzhou.tonight;
 
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -13,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -25,6 +38,7 @@ import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -39,10 +53,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hangzhou.tonight.base.BaseActivity;
+import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.maintabs.MainActivity;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.Base64Utils;
+import com.hangzhou.tonight.util.CommonTools;
 import com.hangzhou.tonight.util.FileUtils;
 import com.hangzhou.tonight.util.HttpRequest;
 import com.hangzhou.tonight.util.JsonResolveUtils;
@@ -85,7 +101,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private XXService mXxService;
 	private String mAccount;
 	private String mPassword;
-
+	private FileOutputStream mOutputStream;
+	private URL mUrl;
+	private File mFile;
+	private Context mContext;
 	 // 整个平台的Controller, 负责管理整个SDK的配置、操作等处理
     private UMSocialService mController = UMServiceFactory
             .getUMSocialService("com.umeng.login");
@@ -126,6 +145,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	};
 	
 	
+	
 	@Override
 	public void connectionStatusChanged(int connectedState, String reason) {
 		if (connectedState == XXService.CONNECTED) {
@@ -144,6 +164,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		setContentView(R.layout.activity_login);
 		// startService(new Intent(LoginActivity.this, XXService.class));
 		//bindXMPPService();
+		mContext = this;
 		initViews();
 		init();
 		initEvents();
@@ -216,12 +237,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	protected void init() {
-		mAccount=MyPreference.getInstance(LoginActivity.this).getLoginName();
+		/*mAccount=MyPreference.getInstance(LoginActivity.this).getLoginName();
 		mPassword=MyPreference.getInstance(LoginActivity.this).getPassword();;
 		if (!TextUtils.isEmpty(mAccount))
 			mAccountEt.setText(mAccount);
 		if (!TextUtils.isEmpty(mPassword))
-			mPasswordEt.setText(mPassword);
+			mPasswordEt.setText(mPassword);*/
 
 	}
 
@@ -290,6 +311,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			break;
 		}
 	}
+	
+	
+	
 	
 	
 	/**
@@ -510,7 +534,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		}.execute();
 	}
     
-    
 	private void login() {
 		/*
 		 * if ((!validateAccount()) || (!validatePwd())) { return; }
@@ -583,14 +606,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 						groups = object.getString("groups");
 						friends = object.getString("friends");
 						
-						
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
-					
-					
 					
 					MyPreference.getInstance(LoginActivity.this).setUserId(uid);
 					MyPreference.getInstance(LoginActivity.this).setPassword(mPassword);
@@ -599,7 +619,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 					MyPreference.getInstance(LoginActivity.this).setUserSex(sex);
 					MyPreference.getInstance(LoginActivity.this).setUserName(nick);
 					MyPreference.getInstance(LoginActivity.this).setUserbirth(birth);
-					MyPreference.getInstance(LoginActivity.this).setFact(favorite);
+					//MyPreference.getInstance(LoginActivity.this).setFact(favorite);
 					MyPreference.getInstance(LoginActivity.this).setUserPraised(praised);
 					MyPreference.getInstance(LoginActivity.this).setUserGroups(groups);
 					MyPreference.getInstance(LoginActivity.this).setUserFrinds(friends);
@@ -632,7 +652,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, Object> parms = new HashMap<String, Object>();
 		mAccount = mAccountEt.getText().toString().trim();
-		//mPassword = mPasswordEt.getText().toString().trim();
+		mPassword = mPasswordEt.getText().toString().trim();
 		
 		//mAccount="1000003";
 		//mPassword="9d2b201382a3a8cf1342c1be422594d5";
